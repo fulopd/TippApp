@@ -20,7 +20,7 @@ async function sendData(){
           },
         body: JSON.stringify(guess)
     };
-    const response = await fetch('/', options);
+    const response = await fetch('/add', options);
     const data = await response.json();
     console.log(data);
 }
