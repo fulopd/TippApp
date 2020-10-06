@@ -1,0 +1,31 @@
+{
+  "name": "tippapp",
+  "version": "1.0.0",
+  "description": "Teppek leadása, tárolása. Eredmény rögzítése, kiértékelése.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fulopd/TippApp.git"
+  },
+  "keywords": [
+    "tipp",
+    "app",
+    "szavazat",
+    "fogadas",
+    "kiertekeles",
+    "adatbazis"
+  ],
+  "author": "D",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fulopd/TippApp/issues"
+  },
+  "homepage": "https://github.com/fulopd/TippApp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
+  }
+}
