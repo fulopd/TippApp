@@ -28,11 +28,15 @@ app.post('/add', (response, request) => {
 
 app.get('/api/:selDate', (response, request) => {
     console.log('/api');
+    const data = {};
     let date = response.params.selDate;
     db_guesses.find({ timestamp: date }, (err, docs) => {
-        request.json(docs);
+        data.table = docs;
+        db_result.find({ date: date }, (err, docs) => {
+            data.res = docs;
+            request.json(data);
+        });
     });
-
 });
 
 
@@ -58,11 +62,7 @@ app.post('/guessresult', (response, request) => {
                 guess: data
             });
         }
-
-
     });
-
-
 });
 
 // function isGuessResultExist(date) {
