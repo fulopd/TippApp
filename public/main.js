@@ -13,7 +13,7 @@ async function sendData(){
         guess_value: document.getElementById('txt_guess_value').value
     }
     console.log(guess);
-    options = {
+    const options = {
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'

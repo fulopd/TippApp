@@ -2,19 +2,16 @@ const express = require('express');
 const app = express();
 const port = 3999;
 const Datastore = require('nedb');
-const url = require('url');
 
 const db_guesses = new Datastore({ filename: './database/guesses.db' });
-const db_win = new Datastore({ filename: './database/win.db' });
+const db_result = new Datastore({ filename: './database/result.db' });
 db_guesses.loadDatabase();
-db_win.loadDatabase();
-
+db_result.loadDatabase();
 
 app.use(express.static('public'));
 app.use(express.json({ filesize: '1 mb' }));
 
 app.listen(port, () => console.log(`Server listen on ${port} port.`));
-
 
 app.post('/add', (response, request) => {
     console.log('/');
@@ -37,3 +34,45 @@ app.get('/api/:selDate', (response, request) => {
     });
 
 });
+
+
+app.post('/guessresult', (response, request) => {
+    console.log('/guessresult');
+    const data = response.body;
+    console.log(data);
+
+    db_result.find({ date: data.date }, (err, docs) => {
+        console.log(docs.length);
+        if (docs.length != 0) {
+            console.log('már létezik');
+            request.json({
+                status: 'failed',
+                msg: 'Már létezik'
+            });
+        } else {
+            console.log('Még nem létezik');
+            db_result.insert(data);
+            console.log(data);
+            request.json({
+                status: 'success',
+                guess: data
+            });
+        }
+
+
+    });
+
+
+});
+
+// function isGuessResultExist(date) {
+//     db_result.find({ date: date }, (err, docs) => {
+//         console.log(docs.length);
+//         if (docs.length == 0) {
+//             console.log('Még nem létezik');
+//             return docs.length;
+//         }
+//         console.log('Már létezik');
+//         return docs.length;
+//     });
+// }
