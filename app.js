@@ -3,12 +3,12 @@ const app = express();
 const port = 3999;
 const Datastore = require('nedb');
 
-const db = new Datastore({filename: 'database.db'});
+const db = new Datastore({ filename: 'database.db' });
 db.loadDatabase();
 
 
 app.use(express.static('public'));
-app.use(express.json({filesize: '1 mb'}));
+app.use(express.json({ filesize: '1 mb' }));
 
 app.listen(port, () => console.log(`Server listen on ${port} port.`));
 
@@ -24,12 +24,12 @@ app.post('/add', (response, request) => {
         guess: data
     });
 });
-
+//ez most bele fog kerülni
 
 app.get('/api', (response, request) => {
     console.log('/api');
     let db_data = db.getAllData();
     console.log(db_data);
     request.json(db_data);
-    request.end();    
+    request.end();
 });
