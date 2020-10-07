@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const port = 3999;
 const Datastore = require('nedb');
+const url = require('url');
 
-const db = new Datastore({ filename: 'database.db' });
-db.loadDatabase();
+const db_guesses = new Datastore({ filename: './database/guesses.db' });
+const db_win = new Datastore({ filename: './database/win.db' });
+db_guesses.loadDatabase();
+db_win.loadDatabase();
 
 
 app.use(express.static('public'));
@@ -15,21 +18,22 @@ app.listen(port, () => console.log(`Server listen on ${port} port.`));
 
 app.post('/add', (response, request) => {
     console.log('/');
+    let guessDate = new Date();
     const data = response.body;
-    data.timestamp = Date.now();
-    db.insert(data);
+    data.timestamp = guessDate.toISOString().substr(0, 10);
+    db_guesses.insert(data);
     console.log(data);
     request.json({
         status: 'success',
         guess: data
     });
 });
-//ez most bele fog kerülni
 
-app.get('/api', (response, request) => {
+app.get('/api/:selDate', (response, request) => {
     console.log('/api');
-    let db_data = db.getAllData();
-    console.log(db_data);
-    request.json(db_data);
-    request.end();
+    let date = response.params.selDate;
+    db_guesses.find({ timestamp: date }, (err, docs) => {
+        request.json(docs);
+    });
+
 });
