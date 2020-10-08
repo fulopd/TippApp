@@ -2,22 +2,23 @@ console.log('client js');
 
 const btn_submit = document.getElementById('btn_submit');
 
-btn_submit.addEventListener('click', ()=>{
+btn_submit.addEventListener('click', () => {
     console.log('click');
     sendData();
 });
 
-async function sendData(){
+async function sendData() {
     const guess = {
+        category: document.getElementById('sel_category').value,
         name: document.getElementById('txt_name').value,
         guess_value: document.getElementById('txt_guess_value').value
     }
     console.log(guess);
     const options = {
         method: 'POST',
-        headers:{
+        headers: {
             'Content-Type': 'application/json'
-          },
+        },
         body: JSON.stringify(guess)
     };
     const response = await fetch('/add', options);

@@ -7,8 +7,9 @@ document.getElementById('btn_sendDate').addEventListener('click', () => {
     sendData();
 });
 
-async function sendData(){
+async function sendData() {
     const guessResult = {
+        category: document.getElementById('sel_category').value,
         date: selectedDate.value,
         value: document.getElementById('txt_result').value
     };
@@ -16,11 +17,11 @@ async function sendData(){
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(guessResult)
     };
-    const response = await fetch('/guessresult',options);
+    const response = await fetch('/guessresult', options);
     const res_data = await response.json();
     console.log(res_data);
 }

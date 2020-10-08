@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 80;
+const port = 3999;
 const Datastore = require('nedb');
 
 const db_guesses = new Datastore({ filename: './database/guesses.db' });
@@ -26,13 +26,16 @@ app.post('/add', (response, request) => {
     });
 });
 
-app.get('/api/:selDate', (response, request) => {
+app.get('/api/:resData', (response, request) => {
     console.log('/api');
     const data = {};
-    let date = response.params.selDate;
-    db_guesses.find({ timestamp: date }).sort({ diff: 1 }).exec((err, docs) => {
+    let resp_data = response.params.resData.split(',');
+    let date, category;
+    [date, category] = resp_data;
+    console.log(category);
+    db_guesses.find({ timestamp: date, category }).sort({ diff: 1 }).exec((err, docs) => {
         data.guesses = docs;
-        db_result.find({ date: date }, (err, docs) => {
+        db_result.find({ date: date, category }, (err, docs) => {
             data.res = docs;
             request.json(data);
         });
@@ -45,7 +48,7 @@ app.post('/guessresult', (response, request) => {
     const data = response.body;
     console.log(data);
 
-    db_result.find({ date: data.date }, (err, docs) => {
+    db_result.find({ date: data.date, category: data.category }, (err, docs) => {
         console.log(docs.length);
         if (docs.length != 0) {
             console.log('Már létezik');
@@ -59,18 +62,24 @@ app.post('/guessresult', (response, request) => {
 
 
             //már rögzített tippek kiegészítése eredmény eltéréssel
-            db_guesses.find({ timestamp: data.date }, (err, docs) => {
+            db_guesses.find({ timestamp: data.date, category: data.category }, (err, docs) => {
                 if (docs.length > 0) {
                     for (const item of docs) {
                         console.log(item);
-                        const diff = Math.abs(data.value - item.guess_value);
+                        let diff;
+                        if (item.category == 'apple') {
+                            let guess_value = item.guess_value.split(':');
+                            let res_value = data.value.split(':');
+                            diff = Math.abs((res_value[0] * 60 + res_value[1]) - (guess_value[0] * 60 + guess_value[1]));
+                        } else {
+                            diff = Math.abs(data.value - item.guess_value);
+                        }
+                        console.log(diff);
                         db_guesses.update({ _id: item._id }, { $set: { diff: diff } }, {});
                     }
                     db_guesses.persistence.compactDatafile();
                 }
             });
-
-
 
             console.log(data);
             request.json({

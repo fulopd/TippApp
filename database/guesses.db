@@ -1,8 +1,4 @@
-{"name":"Dani","guess_value":"1300","timestamp":"2020-10-08","_id":"2lUO0szuswQIeTF7","diff":368}
-{"name":"mihálytelek","guess_value":"444","timestamp":"2020-10-07","_id":"3c4UxWhW91vc8klS","diff":244}
-{"name":"Nemtudom","guess_value":"72","timestamp":"2020-10-07","_id":"7oNMc2oQT2LJYXQX","diff":128}
-{"name":"Balázs","guess_value":"1100","timestamp":"2020-10-08","_id":"G48t616s55HDM2X3","diff":168}
-{"name":"zokni","guess_value":"753","timestamp":"2020-10-04","_id":"Yy8bQcYnxRLqYJMF","diff":653}
-{"name":"Zöld Toll","guess_value":"2353","timestamp":"2020-10-07","_id":"gdJL2hrYoSb885bm","diff":2153}
-{"name":"papucs","guess_value":"789","timestamp":"2020-10-05","_id":"kyKqccQpZqdw1JAv"}
-{"name":"erdő","guess_value":"111","timestamp":"2020-10-06","_id":"thBaxF4pOmw56Dwv"}
+{"category":"new_infected","name":"proba1","guess_value":"984","timestamp":"2020-10-08","_id":"0ndWGHr133uWz3VR","diff":52}
+{"category":"apple","name":"időn kívül","guess_value":"08:11","timestamp":"2020-10-08","_id":"54XGouarYcCFWdDh","diff":5}
+{"category":"apple","name":"időőben","guess_value":"08:23","timestamp":"2020-10-08","_id":"KqA03CLMQVGMvmTl","diff":7}
+{"category":"new_infected","name":"proba2","guess_value":"678","timestamp":"2020-10-08","_id":"YDMicO3SG4YeGDqZ","diff":254}

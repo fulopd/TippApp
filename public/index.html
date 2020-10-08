@@ -14,9 +14,15 @@
     <div>
         <a href="/">Tipp leadása</a> | <a href="/guesses">Tippek</a> | <a href="/guessresult">Eredmény rögzítése</a>
     </div>
-    <p>
-        <input type="text" id="txt_name">
-        <input type="text" id="txt_guess_value">
+    <p> <label for="sel_category">Kategória: </label>
+        <select name="" id="sel_category">
+            <option value="new_infected">Új fertőzöttek száma</option>
+            <option value="new_test">Új tesztek száma</option>
+            <option value="apple">Az idő fogságában</option>
+        </select>
+        <label for="txt_name">Név: </label><input type="text" id="txt_name">
+
+        <label for="txt_guess_value">Tipp: </label><input type="text" id="txt_guess_value">
         <button class="btn btn-success btn-sm" type="submit" id="btn_submit">küldés</button>
     </p>
     <script src="main.js"></script>
