@@ -71,6 +71,7 @@ app.post('/guessresult', (response, request) => {
                             let guess_value = item.guess_value.split(':');
                             let res_value = data.value.split(':');
                             diff = Math.abs((res_value[0] * 60 + res_value[1]) - (guess_value[0] * 60 + guess_value[1]));
+                            console.log(res_value[0], res_value[1], guess_value[0], guess_value[1]);
                         } else {
                             diff = Math.abs(data.value - item.guess_value);
                         }
