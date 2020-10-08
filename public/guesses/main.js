@@ -37,7 +37,7 @@ function drawTable(data) {
                         </thead>`;
     for (const item of data.guesses) {
         htmlTable += `<tr>
-                        <td>${item.category}</td>
+                        <td>${item.category.name}</td>
                         <td>${item.timestamp}</td>
                         <td>${item.name}</td>
                         <td>${item.guess_value}</td>

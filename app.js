@@ -5,14 +5,17 @@ const Datastore = require('nedb');
 
 const db_guesses = new Datastore({ filename: './database/guesses.db' });
 const db_result = new Datastore({ filename: './database/result.db' });
+const db_categories = new Datastore({ filename: './database/categories.db' });
 db_guesses.loadDatabase();
 db_result.loadDatabase();
+db_categories.loadDatabase();
 
 app.use(express.static('public'));
 app.use(express.json({ filesize: '1 mb' }));
 
 app.listen(port, () => console.log(`Server listen on ${port} port.`));
 
+//Új tipp rögzítése
 app.post('/add', (response, request) => {
     console.log('/');
     let guessDate = new Date();
@@ -26,23 +29,44 @@ app.post('/add', (response, request) => {
     });
 });
 
+//Új kategória felvétele
+app.post('/newcategory', (response, request) => {
+    console.log('/newcategory');
+    const data = response.body;
+    db_categories.insert(data);
+    console.log(data);
+    request.json({
+        status: 'success',
+        category: data
+    });
+});
+
+//Katagóriák lekérdezése
+app.get('/getcategories', (response, request) => {
+    console.log('/getcategories');
+    db_categories.find({}, (err, docs) => {
+        request.json(docs);
+    })
+});
+
+//Adatok lekérdezése
 app.get('/api/:resData', (response, request) => {
     console.log('/api');
     const data = {};
     let resp_data = response.params.resData.split(',');
     let date, category;
     [date, category] = resp_data;
-    console.log(category);
-    db_guesses.find({ timestamp: date, category }).sort({ diff: 1 }).exec((err, docs) => {
+    db_guesses.find({ timestamp: date, 'category.id': category }).sort({ diff: 1 }).exec((err, docs) => {
         data.guesses = docs;
         db_result.find({ date: date, category }, (err, docs) => {
             data.res = docs;
             request.json(data);
+            console.log(`"${category}" - kategória, ${date} - dátum adatai elküldve!`);
         });
     });
 });
 
-
+//végeredmény rögzítése, hozzá tartozó adatok frissítése
 app.post('/guessresult', (response, request) => {
     console.log('/guessresult');
     const data = response.body;
@@ -62,12 +86,12 @@ app.post('/guessresult', (response, request) => {
 
 
             //már rögzített tippek kiegészítése eredmény eltéréssel
-            db_guesses.find({ timestamp: data.date, category: data.category }, (err, docs) => {
+            db_guesses.find({ timestamp: data.date, "category.id": data.category }, (err, docs) => {
                 if (docs.length > 0) {
                     for (const item of docs) {
                         console.log(item);
                         let diff;
-                        if (item.category.includes(':')) {
+                        if (item.guess_value.includes(':')) {
                             let guess_value = item.guess_value.split(':');
                             let res_value = data.value.split(':');
                             diff = Math.abs((res_value[0] * 60 + res_value[1]) - (guess_value[0] * 60 + guess_value[1]));
