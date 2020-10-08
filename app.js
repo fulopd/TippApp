@@ -67,7 +67,7 @@ app.post('/guessresult', (response, request) => {
                     for (const item of docs) {
                         console.log(item);
                         let diff;
-                        if (item.category == 'apple') {
+                        if (item.category.includes(':')) {
                             let guess_value = item.guess_value.split(':');
                             let res_value = data.value.split(':');
                             diff = Math.abs((res_value[0] * 60 + res_value[1]) - (guess_value[0] * 60 + guess_value[1]));
