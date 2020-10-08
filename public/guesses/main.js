@@ -17,24 +17,30 @@ async function getData() {
 }
 
 function drawTable(data) {
-    const result = data.res.length == 0 ? 0 : data.res[0].value;
+    let result = 0;
+    if (data.res[0]) {
+        result = data.res[0].value;
+    }
+
+
     let htmlTable = `<table class="table table-striped table-hover">
                         <thead class="thead-light">
                             <tr>
                                 <th>Dátum</th>
                                 <th>Név</th>
                                 <th>Tipp</th>
-                                <th>Eredmény</th>
+                                <th>Eltérés (${result})</th>
                             </tr>
                         </thead>`;
-    for (const item of data.table) {
+    for (const item of data.guesses) {
         htmlTable += `<tr>
                         <td>${item.timestamp}</td>
                         <td>${item.name}</td>
                         <td>${item.guess_value}</td>
-                        <td>${item.guess_value-result}</td>
+                        <td>${item.diff}</td>
                       </tr>`;
     };
     htmlTable += `</table>`;
+
     document.getElementById('guesses_table').innerHTML = htmlTable;
 }

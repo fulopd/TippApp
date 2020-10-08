@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3999;
+const port = 80;
 const Datastore = require('nedb');
 
 const db_guesses = new Datastore({ filename: './database/guesses.db' });
@@ -30,8 +30,8 @@ app.get('/api/:selDate', (response, request) => {
     console.log('/api');
     const data = {};
     let date = response.params.selDate;
-    db_guesses.find({ timestamp: date }, (err, docs) => {
-        data.table = docs;
+    db_guesses.find({ timestamp: date }).sort({ diff: 1 }).exec((err, docs) => {
+        data.guesses = docs;
         db_result.find({ date: date }, (err, docs) => {
             data.res = docs;
             request.json(data);
@@ -48,7 +48,7 @@ app.post('/guessresult', (response, request) => {
     db_result.find({ date: data.date }, (err, docs) => {
         console.log(docs.length);
         if (docs.length != 0) {
-            console.log('már létezik');
+            console.log('Már létezik');
             request.json({
                 status: 'failed',
                 msg: 'Már létezik'
@@ -56,6 +56,22 @@ app.post('/guessresult', (response, request) => {
         } else {
             console.log('Még nem létezik');
             db_result.insert(data);
+
+
+            //már rögzített tippek kiegészítése eredmény eltéréssel
+            db_guesses.find({ timestamp: data.date }, (err, docs) => {
+                if (docs.length > 0) {
+                    for (const item of docs) {
+                        console.log(item);
+                        const diff = Math.abs(data.value - item.guess_value);
+                        db_guesses.update({ _id: item._id }, { $set: { diff: diff } }, {});
+                    }
+                    db_guesses.persistence.compactDatafile();
+                }
+            });
+
+
+
             console.log(data);
             request.json({
                 status: 'success',
@@ -64,15 +80,3 @@ app.post('/guessresult', (response, request) => {
         }
     });
 });
-
-// function isGuessResultExist(date) {
-//     db_result.find({ date: date }, (err, docs) => {
-//         console.log(docs.length);
-//         if (docs.length == 0) {
-//             console.log('Még nem létezik');
-//             return docs.length;
-//         }
-//         console.log('Már létezik');
-//         return docs.length;
-//     });
-// }
