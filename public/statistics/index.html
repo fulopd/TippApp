@@ -10,18 +10,15 @@
 
 <body>
     <h1>TippApp</h1>
-    <h2>Eddigi tippek</h2>
+    <h2>Statisztika</h2>
     <div>
         <a href="/">Tipp leadása</a> | <a href="/guesses">Tippek</a> | <a href="/guessresult">Eredmény rögzítése</a> | <a href="/statistics">Statisztika</a>
     </div>
     <div>
-        <label for="sel_category">Kategória: </label>
-        <span id="selector_fields"></span>
-        <input type="date" id="datePicker">
-        <input type="button" id="btn_sendDate" value="Küldés">
+        <label for="txt_name">Név: </label><select id="sel_name"></select>
+        <button class="btn btn-success btn-sm" type="submit" id="btn_submit">Küldés</button>
     </div>
-    <div id="guesses_table"></div>
-    <script src="../inputfields.js"></script>
+
     <script src="main.js"></script>
 </body>
 

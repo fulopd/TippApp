@@ -73,7 +73,6 @@ app.post('/guessresult', (response, request) => {
     console.log(data);
 
     db_result.find({ date: data.date, category: data.category }, (err, docs) => {
-        console.log(docs.length);
         if (docs.length != 0) {
             console.log('Már létezik');
             request.json({
@@ -81,25 +80,20 @@ app.post('/guessresult', (response, request) => {
                 msg: 'Már létezik'
             });
         } else {
-            console.log('Még nem létezik');
             db_result.insert(data);
-
 
             //már rögzített tippek kiegészítése eredmény eltéréssel
             db_guesses.find({ timestamp: data.date, "category.id": data.category }, (err, docs) => {
                 if (docs.length > 0) {
                     for (const item of docs) {
-                        console.log(item);
                         let diff;
                         if (item.guess_value.includes(':')) {
                             let guess_value = item.guess_value.split(':');
                             let res_value = data.value.split(':');
                             diff = Math.abs((res_value[0] * 60 + res_value[1]) - (guess_value[0] * 60 + guess_value[1]));
-                            console.log(res_value[0], res_value[1], guess_value[0], guess_value[1]);
                         } else {
                             diff = Math.abs(data.value - item.guess_value);
                         }
-                        console.log(diff);
                         db_guesses.update({ _id: item._id }, { $set: { diff: diff } }, {});
 
 
@@ -114,7 +108,6 @@ app.post('/guessresult', (response, request) => {
                                 }
                             }
                         });
-
                     }
                     db_guesses.persistence.compactDatafile();
                 }
@@ -127,4 +120,33 @@ app.post('/guessresult', (response, request) => {
             });
         }
     });
+});
+
+//Statisztikai adatok lekérdezése
+app.get('/statistics/:resData', (response, request) => {
+    console.log('/statistics');
+    let name = response.params.resData;
+    db_guesses.find({ name }).exec((err, docs) => {
+        request.json(docs);
+    });
+});
+
+
+
+//Név lekérdezése
+app.get('/getnames', (response, request) => {
+    console.log('/getnames');
+    let namesSet = new Set();
+    db_guesses.find({}, (err, docs) => {
+
+        docs.forEach(element => {
+            namesSet.add(element.name);
+        });
+
+        let data = [];
+        for (const item of namesSet) {
+            data.push({ name: item });
+        }
+        request.json(data);
+    })
 });
