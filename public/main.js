@@ -8,15 +8,19 @@ sel_category.addEventListener('change', () => {
     console.log('change');
     let selectedCategory = sel_category.value;
     if (selectedCategory == 'Xzbgsivz49tu7wyh') {
-        guess_value.setAttribute('type','time');
-    }else{
-        guess_value.setAttribute('type','number');
+        guess_value.setAttribute('type', 'time');
+    } else {
+        guess_value.setAttribute('type', 'number');
     }
 });
 
 btn_submit.addEventListener('click', () => {
     console.log('click');
-    sendData();
+    if (sel_category.value != 0) {
+        sendData();
+    } else {
+        alert('Válassz kategóriát!');
+    }
 });
 
 async function sendData() {

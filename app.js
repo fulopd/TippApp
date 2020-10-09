@@ -101,6 +101,20 @@ app.post('/guessresult', (response, request) => {
                         }
                         console.log(diff);
                         db_guesses.update({ _id: item._id }, { $set: { diff: diff } }, {});
+
+
+                        //Győztes jelölő hozzáadása
+                        db_guesses.find({ timestamp: data.date, 'category.id': data.category }).sort({ diff: 1 }).exec((err, docs) => {
+                            let win = docs[0];
+                            for (const item of docs) {
+                                if (win.diff == item.diff) {
+                                    db_guesses.update({ _id: item._id }, { $set: { win: 1 } }, {});
+                                } else {
+                                    break;
+                                }
+                            }
+                        });
+
                     }
                     db_guesses.persistence.compactDatafile();
                 }

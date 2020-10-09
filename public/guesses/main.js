@@ -3,10 +3,14 @@ let selectedDate = document.getElementById('datePicker');
 let dateObj = new Date();
 selectedDate.value = dateObj.toISOString().substr(0, 10);
 let sel_category = document.getElementById('sel_category');
-getData();
+
 
 document.getElementById('btn_sendDate').addEventListener('click', () => {
-    getData();
+    if (sel_category.value != 0) {
+        getData();
+    } else {
+        alert('Válassz kategóriát!');
+    }
 });
 
 
@@ -23,8 +27,6 @@ function drawTable(data) {
     if (data.res[0]) {
         result = data.res[0].value;
     }
-
-
     let htmlTable = `<table class="table table-striped table-hover">
                         <thead class="thead-light">
                             <tr>

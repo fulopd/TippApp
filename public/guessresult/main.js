@@ -17,8 +17,13 @@ sel_category.addEventListener('change', () => {
 });
 
 document.getElementById('btn_sendDate').addEventListener('click', () => {
-    sendData();
+    if (sel_category.value != 0) {
+        sendData();
+    } else {
+        alert('Válassz kategóriát!');
+    }
 });
+
 async function sendData() {
     const guessResult = {
         category: sel_category.value,

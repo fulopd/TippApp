@@ -8,6 +8,10 @@ async function getCategories() {
     const response = await fetch('/getcategories');
     const data = await response.json();
     console.log(data);
+    const option = document.createElement("option");
+    option.value = 0
+    option.text = 'Válassz egy kategóriát';
+    categorySelector.add(option);
     for (const item of data) {
         const option = document.createElement("option");
         option.value = item._id;
