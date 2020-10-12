@@ -1,4 +1,5 @@
-{"category":"Új fertőzöttek száma","_id":"7F5malxrPH6mKp39"}
-{"category":"Valami uj","_id":"R0dgXlGdMhvW5I1C"}
-{"category":"Az idő fogságában","_id":"Xzbgsivz49tu7wyh"}
-{"category":"Új tesztek száma","_id":"xLY0oDBMCYHBQEqF"}
+{"category":"Dátumos tipp kérdés","type":"date","_id":"6mD7IktM9w2X5NFP"}
+{"category":"Új fertőzöttek száma","type":"number","_id":"7F5malxrPH6mKp39"}
+{"category":"Valami uj","type":"number","_id":"R0dgXlGdMhvW5I1C"}
+{"category":"Az idő fogságában","type":"time","_id":"Xzbgsivz49tu7wyh"}
+{"category":"Új tesztek száma","type":"number","_id":"xLY0oDBMCYHBQEqF"}

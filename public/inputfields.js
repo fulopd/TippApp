@@ -16,6 +16,7 @@ async function getCategories() {
         const option = document.createElement("option");
         option.value = item._id;
         option.text = item.category;
+        option.id = item.type;
         categorySelector.add(option);
     }
 }

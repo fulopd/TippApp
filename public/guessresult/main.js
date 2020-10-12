@@ -7,13 +7,8 @@ const sel_category = document.getElementById('sel_category');
 const res_value = document.getElementById('txt_result')
 
 sel_category.addEventListener('change', () => {
-    console.log('change');
-    let selectedCategory = sel_category.value;
-    if (selectedCategory == 'Xzbgsivz49tu7wyh') {
-        res_value.setAttribute('type', 'time');
-    } else {
-        res_value.setAttribute('type', 'number');
-    }
+    let selectedCategoryType = sel_category[sel_category.selectedIndex].id;
+    res_value.setAttribute('type', selectedCategoryType);
 });
 
 document.getElementById('btn_sendDate').addEventListener('click', () => {
@@ -50,7 +45,8 @@ document.getElementById('btn_new_category').addEventListener('click', () => {
 });
 async function sendNewCategory() {
     const newCategory = {
-        category: document.getElementById('txt_new_category').value
+        category: document.getElementById('txt_new_category').value,
+        type: document.getElementById('sel_type').value
     };
     console.log(newCategory);
     const options = {
