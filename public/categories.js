@@ -13,6 +13,19 @@ async function getCategories() {
     const response = await fetch('/getcategories');
     const data = await response.json();
     console.log(data);
+    // for (const item of data) {
+    //     html += `<div class="col-sm-4">
+    //                 <div class="card border-success">
+    //                 <div class="card-header">${item.category}</div>
+    //                     <div class="card-body">
+    //                         <p class="card-text">${item._id} , ${item.type}</p>
+    //                         <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
+    //                         <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
+    //                         <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új eredmény</button>
+    //                     </div>
+    //                 </div>
+    //             </div>`;
+    // }
     for (const item of data) {
         html += `<div class="col-sm-4">
                     <div class="card border-success">
@@ -21,11 +34,20 @@ async function getCategories() {
                             <p class="card-text">${item._id} , ${item.type}</p>
                             <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
                             <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
-                            <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új eredmény</button>
+                            <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-warning">Új eredmény</button>
                         </div>
                     </div>
                 </div>`;
     }
+    //Úja kategória gomb
+    html += `<div class="col-sm-4">
+                <div class="card border-success">
+                <div class="card-header">Új kategóri létrehozása</div>
+                    <div class="card-body text-center">
+                        <p class="card-text"><button class="btn btn-outline-success"><h1>+</h1></button></p>
+                    </div>
+                </div>
+            </div>`;
     html += `</div>`;
     document.getElementById('categories').innerHTML = html;
 }
@@ -65,7 +87,7 @@ function modalNewGuess() {
     modalBody.innerHTML = `<label for="txt_name">Név: </label><input type="text" id="txt_name">
                            <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value">`;
     modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;
-    
+
     document.getElementById('btn_submit').addEventListener('click', () => {
         const txtName = document.getElementById('txt_name').value;
         const guessValue = document.getElementById('txt_guess_value').value;
@@ -103,8 +125,8 @@ function modalListGuesses() {
     datePicker.value = dateObj.toISOString().substr(0, 10);
     getData(datePicker.value);
 
-    datePicker.addEventListener('change', () => {getData(datePicker.value);});
-    document.getElementsByClassName('close')[0].addEventListener('click', ()=>{modal.style.display = "none";});
+    datePicker.addEventListener('change', () => { getData(datePicker.value); });
+    document.getElementsByClassName('close')[0].addEventListener('click', () => { modal.style.display = "none"; });
 
 };
 async function getData(date) {
@@ -145,17 +167,17 @@ function drawTable(data) {
 
 
 //Eredmény rögzítése
-function modalAddResult(){
+function modalAddResult() {
     //Header
     modalHeader.innerHTML = `<h2>${selectedCategory.name}</h2>`;
     //Body
     modalBody.innerHTML = `<input type="date" id="datePicker">
                            <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>`;
-        let datePicker = document.getElementById('datePicker');
+    let datePicker = document.getElementById('datePicker');
     let dateObj = new Date();
     datePicker.value = dateObj.toISOString().substr(0, 10);
     //Footer
-    modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;    
+    modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;
     document.getElementById('btn_submit').addEventListener('click', () => {
         const guessValue = document.getElementById('txt_guess_value').value;
         sendResult(datePicker.value, guessValue);
