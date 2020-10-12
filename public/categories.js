@@ -21,7 +21,7 @@ async function getCategories() {
                             <p class="card-text">${item._id} , ${item.type}</p>
                             <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
                             <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
-                            <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eredmény</button>
+                            <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új eredmény</button>
                         </div>
                     </div>
                 </div>`;
@@ -50,6 +50,7 @@ document.getElementById('categories').addEventListener('click', (e) => {
                 break;
             case 'btn_end':
                 console.log('Végeredmény rögzítése: ' + selectedCategory.name)
+                modalAddResult();
                 break;
             default:
                 console.log('Nincs ilyen...')
@@ -69,6 +70,7 @@ function modalNewGuess() {
         const txtName = document.getElementById('txt_name').value;
         const guessValue = document.getElementById('txt_guess_value').value;
         sendData(selectedCategory, txtName, guessValue);
+        modal.style.display = "none";
     });
 }
 async function sendData(selectedCategory, txtName, guessValue) {
@@ -94,16 +96,15 @@ async function sendData(selectedCategory, txtName, guessValue) {
 //Kategória elemeinek kilistázása
 function modalListGuesses() {
 
-    modalHeader.innerHTML = `<h2>${selectedCategory.name}<input type="date" id="datePicker"></h2>`;
+    modalHeader.innerHTML = `<h2>${selectedCategory.name} <input type="date" id="datePicker"></h2><span class="close">&times;</span>`;
     modalFooter.innerHTML = '';
     let datePicker = document.getElementById('datePicker');
     let dateObj = new Date();
     datePicker.value = dateObj.toISOString().substr(0, 10);
     getData(datePicker.value);
 
-    datePicker.addEventListener('change', () => {
-        getData(datePicker.value);
-    });
+    datePicker.addEventListener('change', () => {getData(datePicker.value);});
+    document.getElementsByClassName('close')[0].addEventListener('click', ()=>{modal.style.display = "none";});
 
 };
 async function getData(date) {
@@ -140,6 +141,46 @@ function drawTable(data) {
     modalBody.innerHTML = htmlTable;
 }
 
+
+
+
+//Eredmény rögzítése
+function modalAddResult(){
+    //Header
+    modalHeader.innerHTML = `<h2>${selectedCategory.name}</h2>`;
+    //Body
+    modalBody.innerHTML = `<input type="date" id="datePicker">
+                           <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>`;
+        let datePicker = document.getElementById('datePicker');
+    let dateObj = new Date();
+    datePicker.value = dateObj.toISOString().substr(0, 10);
+    //Footer
+    modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;    
+    document.getElementById('btn_submit').addEventListener('click', () => {
+        const guessValue = document.getElementById('txt_guess_value').value;
+        sendResult(datePicker.value, guessValue);
+        modal.style.display = "none";
+    });
+}
+
+async function sendResult(date, result) {
+    const guessResult = {
+        category: selectedCategory.id,
+        date: date,
+        value: result
+    };
+    console.log(guessResult);
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(guessResult)
+    };
+    const response = await fetch('/guessresult', options);
+    const res_data = await response.json();
+    console.log(res_data);
+}
 
 
 

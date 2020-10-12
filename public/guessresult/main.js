@@ -11,32 +11,32 @@ sel_category.addEventListener('change', () => {
     res_value.setAttribute('type', selectedCategoryType);
 });
 
-document.getElementById('btn_sendDate').addEventListener('click', () => {
-    if (sel_category.value != 0) {
-        sendData();
-    } else {
-        alert('Válassz kategóriát!');
-    }
-});
+// document.getElementById('btn_sendDate').addEventListener('click', () => {
+//     if (sel_category.value != 0) {
+//         sendData();
+//     } else {
+//         alert('Válassz kategóriát!');
+//     }
+// });
 
-async function sendData() {
-    const guessResult = {
-        category: sel_category.value,
-        date: selectedDate.value,
-        value: res_value.value
-    };
-    console.log(guessResult);
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(guessResult)
-    };
-    const response = await fetch('/guessresult', options);
-    const res_data = await response.json();
-    console.log(res_data);
-}
+// async function sendData() {
+//     const guessResult = {
+//         category: sel_category.value,
+//         date: selectedDate.value,
+//         value: res_value.value
+//     };
+//     console.log(guessResult);
+//     const options = {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(guessResult)
+//     };
+//     const response = await fetch('/guessresult', options);
+//     const res_data = await response.json();
+//     console.log(res_data);
+// }
 
 
 
