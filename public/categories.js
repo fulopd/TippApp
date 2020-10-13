@@ -31,7 +31,7 @@ async function getCategories() {
                           </div>`
         });
     }
-    categoriesArray.sort(function(a, b) {
+    categoriesArray.sort(function (a, b) {
         return b.weight - a.weight;
     });
     let html = '';
@@ -192,10 +192,9 @@ function modalAddResult() {
 
     modalBody.innerHTML = `<input type="date" id="datePicker">
                            <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>
-                           <div id="chartContainer></div>`;
-    let ctx = document.createElement('canvas');
+                           <canvas id="myCanvas"></canvas>`;
+    let ctx = document.getElementById('myCanvas').getContext('2d');;
     createChart(ctx);
-    modalBody.appendChild(ctx);
     let datePicker = document.getElementById('datePicker');
     let dateObj = new Date();
     datePicker.value = dateObj.toISOString().substr(0, 10);
@@ -204,7 +203,8 @@ function modalAddResult() {
     document.getElementById('btn_submit').addEventListener('click', () => {
         const guessValue = document.getElementById('txt_guess_value').value;
         sendResult(datePicker.value, guessValue);
-        modal.style.display = "none";
+        //modal.style.display = "none";
+        modalAddResult();
     });
 }
 
@@ -214,7 +214,6 @@ async function sendResult(date, result) {
         date: date,
         value: result
     };
-    console.log(guessResult);
     const options = {
         method: 'POST',
         headers: {
@@ -267,7 +266,7 @@ async function sendNewCategory(categoryName, categoryType) {
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
@@ -279,63 +278,60 @@ async function getResults() {
     const response = await fetch(`/results/${selectedCategory.id}`);
     const data = await response.json();
     if (data.length > 0) {
-        const result = {
-            x: [],
-            y: []
-        };
+        let x = [];
+        let y = [];
 
         data.forEach(item => {
-            result.x.push(item.date);
-            // let [hours, minutes] = item.value.split(':');
-            // let d = new Date(`1970-01-01 ${hours}:${minutes}:00`);
-            // result.y.push(d);
-            result.y.push(item.value);
+            x.push(item.date);
+            if (item.value.includes(':')) {
+                let [hours, minutes] = item.value.split(':');
+                let d = new Date(`1970-01-01 ${hours}:${minutes}:00`);
+                y.push(d);
+            } else {
+                y.push(item.value);
+            }
+
+
         });
-        return result;
+        return { x, y };
     }
-
-
+    return null;
 }
-
-//const ctx = document.getElementById('chart').getContext('2d');
 
 async function createChart(ctx) {
     const res = await getResults();
-    console.log(res);
-    const myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: res.x,
-            datasets: [{
-                label: 'header',
-                data: res.y,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+    if (res != null) {
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: res.x,
+                datasets: [{
+                    label: selectedCategory.name,
+                    data: res.y,
+                    fill: false,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
                 }]
+            },
+            options: {                
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            callback: function (value, index, values) {
+                                if (selectedCategory.type === 'time') {
+                                    let date = new Date(value);
+                                    let hours = date.getHours();
+                                    let min = date.getUTCMinutes();
+                                    return hours + ':' + min;
+                                } else {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
+    }
 }
