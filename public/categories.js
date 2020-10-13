@@ -13,19 +13,6 @@ async function getCategories() {
     const response = await fetch('/getcategories');
     const data = await response.json();
     console.log(data);
-    // for (const item of data) {
-    //     html += `<div class="col-sm-4">
-    //                 <div class="card border-success">
-    //                 <div class="card-header">${item.category}</div>
-    //                     <div class="card-body">
-    //                         <p class="card-text">${item._id} , ${item.type}</p>
-    //                         <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
-    //                         <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
-    //                         <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új eredmény</button>
-    //                     </div>
-    //                 </div>
-    //             </div>`;
-    // }
     for (const item of data) {
         html += `<div class="col-sm-4">
                     <div class="card border-success">
@@ -39,12 +26,12 @@ async function getCategories() {
                     </div>
                 </div>`;
     }
-    //Úja kategória gomb
+    //Új kategória gomb
     html += `<div class="col-sm-4">
                 <div class="card border-success">
                 <div class="card-header">Új kategóri létrehozása</div>
                     <div class="card-body text-center">
-                        <p class="card-text"><button class="btn btn-outline-success"><h1>+</h1></button></p>
+                        <p class="card-text"><button id="btn_new_category" class="btn btn-outline-success">+</button></p>
                     </div>
                 </div>
             </div>`;
@@ -77,6 +64,10 @@ document.getElementById('categories').addEventListener('click', (e) => {
             default:
                 console.log('Nincs ilyen...')
         }
+        modal.style.display = "block";
+    } else if (e.target.id === 'btn_new_category') {
+        console.log('Új kategória felvétele!')
+        modalNewCategory();
         modal.style.display = "block";
     }
 });
@@ -135,6 +126,7 @@ async function getData(date) {
     console.log(data);
     drawTable(data);
 }
+
 function drawTable(data) {
     let result = 0;
     if (data.res[0]) {
@@ -205,14 +197,50 @@ async function sendResult(date, result) {
 }
 
 
+//Új kategória felvétele
+function modalNewCategory() {
+    modalHeader.innerHTML = `<h2>Új kategória:</h2>`;
+    modalBody.innerHTML = ` <label for="txt_new_category">Új kategória: </label>
+                            <input type="text" id="txt_new_category">
+                            <select id="sel_type">
+                                <option value="number">Szám</option>
+                                <option value="time">Idő</option>
+                                <option value="date">Dátum</option>
+                            </select>`;
+    modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;
 
+    document.getElementById('btn_submit').addEventListener('click', () => {
+        const categoryName = document.getElementById('txt_new_category').value;
+        const categoryType = document.getElementById('sel_type').value;
+        sendNewCategory(categoryName, categoryType);
+        modal.style.display = "none";
+    });
+}
+async function sendNewCategory(categoryName, categoryType) {
+    const newCategory = {
+        category: categoryName,
+        type: categoryType
+    };
+    console.log(newCategory);
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCategory)
+    };
+    const response = await fetch('/newcategory', options);
+    const res_data = await response.json();
+    console.log(res_data);
+    getCategories();
+}
 
 
 
 
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }

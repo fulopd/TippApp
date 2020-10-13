@@ -1,3 +1,4 @@
+/*
 let Person = function(age, name, birth) {
     this.age = age;
     this.name = name;
@@ -29,3 +30,18 @@ console.log(asd.eredmeny);
 (function() {
     console.log('ez a belseje');
 })();
+*/
+
+const arr = [1990, 1987, 2001, 2010];
+
+var ages5 = arr.map(function(elements, index, array) {
+        return 2020 - elements;
+    })
+    //console.log(ages5);
+
+const ages6 = arr.map(el => {
+    const datum = new Date().getFullYear();
+    const age = datum - el;
+    return age;
+})
+console.log(ages6);
