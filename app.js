@@ -156,3 +156,12 @@ app.get('/getnames', (response, request) => {
         request.json(data);
     })
 });
+
+//eredmények lekérése grafikonhoz
+app.get('/results/:resData', (response, request) => {
+    console.log('/results');
+    let categoryId = response.params.resData;
+    db_result.find({ category: categoryId }).sort({ date: 1 }).exec((err, docs) => {
+        request.json(docs);
+    });
+});

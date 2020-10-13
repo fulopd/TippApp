@@ -70,3 +70,7 @@ array.sort(function(a, b) {
 
 
 console.log(array);
+
+
+var d = new Date("1970-01-01 08:22:00");
+console.log(d);

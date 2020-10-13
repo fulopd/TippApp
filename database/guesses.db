@@ -23,6 +23,7 @@
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma"},"name":"Balázs","guess_value":"9138","timestamp":"2020-10-09","_id":"oeZ5X3CDrMxaAP6Y","diff":2025}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma"},"name":"Dani","guess_value":"800","timestamp":"2020-10-09","_id":"ouiac6ur4veIodEd","diff":376}
 {"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában"},"name":"Balázs","guess_value":"08:07","timestamp":"2020-10-12","_id":"ovXcvEca73drOX6u","diff":14}
+{"category":{"id":"6Tz81wyp0ivwuz0E","name":"Télapó szakállának a hossza","type":"number"},"name":"Dani","guess_value":"200","timestamp":"2020-10-13","_id":"pLYBSofCT0jfb2CX"}
 {"category":{"id":"6mD7IktM9w2X5NFP","name":"datumos tipp kerdes","type":"date"},"name":"rrrrr","guess_value":"2020-10-05","timestamp":"2020-10-12","_id":"qElbYFwHvs950y7x","diff":null,"win":1}
 {"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában"},"name":"Dani","guess_value":"08:11","timestamp":"2020-10-12","_id":"rrXxhxfsjlafoIuA","diff":10,"win":1}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma","type":"number"},"name":"46rh","guess_value":"564","timestamp":"2020-10-12","_id":"sZPZiC3wLmw7KSpF"}
@@ -32,4 +33,3 @@
 {"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában"},"name":"péntek","guess_value":"22:30","timestamp":"2020-10-08","_id":"um59y4Pu29QFB5Qb","diff":2}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma"},"name":"Harmadik tipp","guess_value":"1200","timestamp":"2020-10-08","_id":"xACoLzV60hFgf5YS","diff":200,"win":1}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma"},"name":"Balázs","guess_value":"976","timestamp":"2020-10-12","_id":"xr5AMthccoleLTun","diff":197,"win":1}
-{"category":{"id":"6Tz81wyp0ivwuz0E","name":"Télapó szakállának a hossza","type":"number"},"name":"Dani","guess_value":"200","timestamp":"2020-10-13","_id":"pLYBSofCT0jfb2CX"}

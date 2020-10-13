@@ -15,7 +15,6 @@ async function getCategories() {
     let categoriesArray = [];
     for (const item of data) {
         const categoryStat = await getCategoryStatistic(item._id);
-
         categoriesArray.push({
             weight: categoryStat.length,
             content: `<div class="col-sm-4">
@@ -53,6 +52,7 @@ async function getCategories() {
 async function getCategoryStatistic(catId) {
     const response = await fetch(`/statistics-category/${catId}`);
     const data = await response.json();
+
     if (data.length > 0) {
         return {
             length: data.length,
@@ -189,8 +189,13 @@ function modalAddResult() {
     //Header
     modalHeader.innerHTML = `<h2>${selectedCategory.name}</h2>`;
     //Body
+
     modalBody.innerHTML = `<input type="date" id="datePicker">
-                           <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>`;
+                           <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>
+                           <div id="chartContainer></div>`;
+    let ctx = document.createElement('canvas');
+    createChart(ctx);
+    modalBody.appendChild(ctx);
     let datePicker = document.getElementById('datePicker');
     let dateObj = new Date();
     datePicker.value = dateObj.toISOString().substr(0, 10);
@@ -261,13 +266,76 @@ async function sendNewCategory(categoryName, categoryType) {
     getCategories();
 }
 
-
-
-
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+
+//Grafikon
+async function getResults() {
+    const response = await fetch(`/results/${selectedCategory.id}`);
+    const data = await response.json();
+    if (data.length > 0) {
+        const result = {
+            x: [],
+            y: []
+        };
+
+        data.forEach(item => {
+            result.x.push(item.date);
+            // let [hours, minutes] = item.value.split(':');
+            // let d = new Date(`1970-01-01 ${hours}:${minutes}:00`);
+            // result.y.push(d);
+            result.y.push(item.value);
+        });
+        return result;
+    }
+
+
+}
+
+//const ctx = document.getElementById('chart').getContext('2d');
+
+async function createChart(ctx) {
+    const res = await getResults();
+    console.log(res);
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: res.x,
+            datasets: [{
+                label: 'header',
+                data: res.y,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 }
