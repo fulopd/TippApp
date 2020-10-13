@@ -7,7 +7,6 @@
 body {
     text-align: center;
     margin-top: 20px;
-    ;
 }
 
 #categories {
@@ -17,4 +16,13 @@ body {
 
 .card {
     margin-top: 20px;
+}
+
+.card-text {
+    text-align: left;
+}
+
+.card button {
+    margin-top: 5px;
+    width: 120px;
 }

@@ -122,16 +122,22 @@ app.post('/guessresult', (response, request) => {
     });
 });
 
-//Statisztikai adatok lekérdezése
+//Statisztikai adatok lekérdezése név alapján
 app.get('/statistics/:resData', (response, request) => {
     console.log('/statistics');
     let name = response.params.resData;
-    db_guesses.find({ name }).exec((err, docs) => {
+    db_guesses.find({ name }).sort({ timestamp: -1 }).exec((err, docs) => {
         request.json(docs);
     });
 });
-
-
+//Statisztikai adatok lekérdezése kategória alapján
+app.get('/statistics-category/:resData', (response, request) => {
+    console.log('/statistics-category');
+    let categoryId = response.params.resData;
+    db_guesses.find({ "category.id": categoryId }).sort({ timestamp: -1 }).exec((err, docs) => {
+        request.json(docs);
+    });
+});
 
 //Név lekérdezése
 app.get('/getnames', (response, request) => {

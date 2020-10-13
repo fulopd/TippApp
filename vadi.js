@@ -32,16 +32,41 @@ console.log(asd.eredmeny);
 })();
 */
 
-const arr = [1990, 1987, 2001, 2010];
+// const arr = [1990, 1987, 2001, 2010];
 
-var ages5 = arr.map(function(elements, index, array) {
-        return 2020 - elements;
-    })
-    //console.log(ages5);
+// var ages5 = arr.map(function(elements, index, array) {
+//         return 2020 - elements;
+//     })
+//     //console.log(ages5);
 
-const ages6 = arr.map(el => {
-    const datum = new Date().getFullYear();
-    const age = datum - el;
-    return age;
-})
-console.log(ages6);
+// const ages6 = arr.map(el => {
+//     const datum = new Date().getFullYear();
+//     const age = datum - el;
+//     return age;
+// })
+// console.log(ages6);
+
+let array = [
+    { id: 3, name: 'alma' },
+    { id: 1, name: 'körte' },
+    { id: 7, name: 'fa' },
+    { id: 1, name: 'fa' }
+];
+let sortArray = [];
+
+array.map(item => {
+    sortArray[item.id] = item
+});
+
+console.log(array);
+// sort by value
+array.sort(function(a, b) {
+    return a.id - b.id;
+});
+//név szerint
+// items.sort(function(a, b) { 
+//     return (a.id - b.id) || a.name.localeCompare(b.name); 
+// });
+
+
+console.log(array);

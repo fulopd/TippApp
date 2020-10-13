@@ -9,34 +9,60 @@ getCategories();
 
 
 async function getCategories() {
-    html = `<div class="row">`;
+
     const response = await fetch('/getcategories');
     const data = await response.json();
-    console.log(data);
+    let categoriesArray = [];
     for (const item of data) {
-        html += `<div class="col-sm-4">
-                    <div class="card border-success">
-                    <div class="card-header">${item.category}</div>
-                        <div class="card-body">
-                            <p class="card-text">${item._id} , ${item.type}</p>
-                            <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
-                            <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
-                            <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-warning">Új eredmény</button>
-                        </div>
-                    </div>
-                </div>`;
+        const categoryStat = await getCategoryStatistic(item._id);
+
+        categoriesArray.push({
+            weight: categoryStat.length,
+            content: `<div class="col-sm-4">
+                              <div class="card border-success">
+                              <div class="card-header">${item.category}</div>
+                                  <div class="card-body">
+                                      <p class="card-text">Összes tipp: ${categoryStat.length}</br>
+                                      Utolsó tipp: ${categoryStat.lastGuess}</p>
+                                      <button id="btn_new-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Új tipp</button>
+                                      <button id="btn_list-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-success">Eddigi tippek</button>
+                                      <button id="btn_end-${item._id}" data-cat_type="${item.type}" data-cat_name="${item.category}" class="btn btn-outline-warning">Új eredmény</button>
+                                  </div>
+                              </div>
+                          </div>`
+        });
     }
+    categoriesArray.sort(function(a, b) {
+        return b.weight - a.weight;
+    });
+    let html = '';
+    categoriesArray.forEach(item => html += item.content);
+
     //Új kategória gomb
     html += `<div class="col-sm-4">
                 <div class="card border-success">
                 <div class="card-header">Új kategóri létrehozása</div>
                     <div class="card-body text-center">
-                        <p class="card-text"><button id="btn_new_category" class="btn btn-outline-success">+</button></p>
+                        <p><button id="btn_new_category" class="btn btn-outline-success">+</button></p>
                     </div>
                 </div>
             </div>`;
-    html += `</div>`;
     document.getElementById('categories').innerHTML = html;
+}
+
+async function getCategoryStatistic(catId) {
+    const response = await fetch(`/statistics-category/${catId}`);
+    const data = await response.json();
+    if (data.length > 0) {
+        return {
+            length: data.length,
+            lastGuess: data[0].timestamp
+        }
+    }
+    return {
+        length: data.length,
+        lastGuess: '-'
+    }
 }
 
 document.getElementById('categories').addEventListener('click', (e) => {
