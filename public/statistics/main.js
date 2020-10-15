@@ -3,9 +3,11 @@ const statRoot = document.createElement('div');
 document.body.appendChild(statRoot);
 const sel_name = document.getElementById('sel_name');
 getAllName();
-
+getData('Balázs');
+getData('Dani')
 document.getElementById('btn_submit').addEventListener('click', () => {
-    getData(sel_name.value)
+    getData(sel_name.value);
+
 });
 
 async function getAllName() {
@@ -26,10 +28,10 @@ async function getData(name) {
     const response = await fetch(`/statistics/${name}`);
     const data = await response.json();
     console.log(data);
-    calculate(data);
+    calculate(data, name);
 }
 
-function calculate(data) {
+function calculate(data, name) {
     let sum = data.length;
     let win = 0;
     let categories = [];
@@ -66,7 +68,7 @@ function calculate(data) {
 
     let table = `<table class="table table-striped table-hover">
                     <tr>
-                        <th>Kategória</th>
+                        <th>${name}</th>
                         <th>Összesen</th>
                         <th>Nyert</th>
                     </tr>`;
@@ -84,6 +86,6 @@ function calculate(data) {
             </tr>
         </table>`;
 
-    statRoot.innerHTML = table;
+    statRoot.innerHTML += table;
 
 };

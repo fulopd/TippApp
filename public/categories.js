@@ -18,7 +18,7 @@ async function getCategories() {
         categoriesArray.push({
             weight: categoryStat.length,
             content: `<div class="col-sm-4">
-                              <div class="card border-success">
+                            <div class="card border-success">
                               <div class="card-header">${item.category}</div>
                                   <div class="card-body">
                                       <p class="card-text">Összes tipp: ${categoryStat.length}</br>
@@ -31,7 +31,7 @@ async function getCategories() {
                           </div>`
         });
     }
-    categoriesArray.sort(function (a, b) {
+    categoriesArray.sort(function(a, b) {
         return b.weight - a.weight;
     });
     let html = '';
@@ -266,7 +266,7 @@ async function sendNewCategory(categoryName, categoryType) {
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
@@ -314,11 +314,12 @@ async function createChart(ctx) {
                     borderWidth: 1
                 }]
             },
-            options: {                
+            options: {
+                responsive: true,
                 scales: {
                     yAxes: [{
                         ticks: {
-                            callback: function (value, index, values) {
+                            callback: function(value, index, values) {
                                 if (selectedCategory.type === 'time') {
                                     let date = new Date(value);
                                     let hours = date.getHours();

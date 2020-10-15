@@ -39,38 +39,57 @@ console.log(asd.eredmeny);
 //     })
 //     //console.log(ages5);
 
-// const ages6 = arr.map(el => {
-//     const datum = new Date().getFullYear();
-//     const age = datum - el;
-//     return age;
-// })
-// console.log(ages6);
+// // const ages6 = arr.map(el => {
+// //     const datum = new Date().getFullYear();
+// // //     const age = datum - el;
+// // //     return age;
+// // // })
+// // // console.log(ages6);
 
-let array = [
+// // let array = [
+// //     { id: 3, name: 'alma' },
+// //     { id: 1, name: 'körte' },
+// //     { id: 7, name: 'fa' },
+// //     { id: 1, name: 'fa' }
+// // ];
+// // let sortArray = [];
+
+// // array.map(item => {
+// //     sortArray[item.id] = item
+// // });
+
+// // console.log(array);
+// // // sort by value
+// // array.sort(function(a, b) {
+// //     return a.id - b.id;
+// // });
+// //név szerint
+// // items.sort(function(a, b) { 
+// //     return (a.id - b.id) || a.name.localeCompare(b.name); 
+// // });
+
+
+// console.log(array);
+
+// var d = new Date("1970-01-01 08:22:00");
+// console.log(d);
+
+// const mapObj = new Map();
+
+// mapObj.set(1, 'tralalalala');
+
+
+
+
+let arraye = [
     { id: 3, name: 'alma' },
     { id: 1, name: 'körte' },
     { id: 7, name: 'fa' },
     { id: 1, name: 'fa' }
 ];
-let sortArray = [];
 
-array.map(item => {
-    sortArray[item.id] = item
+let elem = arraye.filter(x => x.id > 2 && x.name.includes('f'));
+
+elem.forEach(element => {
+    console.log(element);
 });
-
-console.log(array);
-// sort by value
-array.sort(function(a, b) {
-    return a.id - b.id;
-});
-//név szerint
-// items.sort(function(a, b) { 
-//     return (a.id - b.id) || a.name.localeCompare(b.name); 
-// });
-
-
-console.log(array);
-
-
-var d = new Date("1970-01-01 08:22:00");
-console.log(d);
