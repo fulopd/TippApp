@@ -18,9 +18,9 @@ app.listen(port, () => console.log(`Server listen on ${port} port.`));
 //Új tipp rögzítése
 app.post('/add', (response, request) => {
     console.log('/');
-    let guessDate = new Date();
+    //let guessDate = new Date();
     const data = response.body;
-    data.timestamp = guessDate.toISOString().substr(0, 10);
+    //data.timestamp = guessDate.toISOString().substr(0, 10);
     db_guesses.insert(data);
     console.log(data);
     request.json({

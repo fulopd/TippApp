@@ -101,22 +101,27 @@ document.getElementById('categories').addEventListener('click', (e) => {
 //Új tipp leadása
 function modalNewGuess() {
     modalHeader.innerHTML = `<h2>${selectedCategory.name}</h2>`;
-    modalBody.innerHTML = `<label for="txt_name">Név: </label><input type="text" id="txt_name">
+    modalBody.innerHTML = `<input type="date" id="datePicker">
+                           <label for="txt_name">Név: </label><input type="text" id="txt_name">
                            <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value">`;
     modalFooter.innerHTML = `<button class="btn btn-light" type="submit" id="btn_submit">Küldés</button>`;
 
+    let datePicker = document.getElementById('datePicker');
+    let dateObj = new Date();
+    datePicker.value = dateObj.toISOString().substr(0, 10);
     document.getElementById('btn_submit').addEventListener('click', () => {
         const txtName = document.getElementById('txt_name').value;
         const guessValue = document.getElementById('txt_guess_value').value;
-        sendData(selectedCategory, txtName, guessValue);
+        sendData(selectedCategory, txtName, guessValue, datePicker.value);
         modal.style.display = "none";
     });
 }
-async function sendData(selectedCategory, txtName, guessValue) {
+async function sendData(selectedCategory, txtName, guessValue, date) {
     const guess = {
         category: selectedCategory,
         name: txtName,
-        guess_value: guessValue
+        guess_value: guessValue,
+        timestamp: date
     }
     console.log(guess);
     const options = {
