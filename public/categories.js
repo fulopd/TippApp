@@ -196,7 +196,7 @@ function modalAddResult() {
     //Body
 
     modalBody.innerHTML = `<input type="date" id="datePicker">
-                           <label for="txt_guess_value">Tipp: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>
+                           <label for="txt_guess_value">Eredmény: </label><input type="${selectedCategory.type}" id="txt_guess_value"></input>
                            <canvas id="myCanvas"></canvas>`;
     let ctx = document.getElementById('myCanvas').getContext('2d');;
     createChart(ctx);

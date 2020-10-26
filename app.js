@@ -95,7 +95,7 @@ app.post('/guessresult', (response, request) => {
                             diff = Math.abs(data.value - item.guess_value);
                         }
                         db_guesses.update({ _id: item._id }, { $set: { diff: diff } }, {});
-
+                        db_guesses.persistence.compactDatafile();
 
                         //Győztes jelölő hozzáadása
                         db_guesses.find({ timestamp: data.date, 'category.id': data.category }).sort({ diff: 1 }).exec((err, docs) => {
