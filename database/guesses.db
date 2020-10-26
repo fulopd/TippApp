@@ -29,7 +29,7 @@
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma","type":"number"},"name":"Dani","guess_value":"9457","timestamp":"2020-10-16","_id":"VkNbMsIi7BHwN0vx","diff":340,"win":1}
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma","type":"number"},"name":"Dani","guess_value":"9147","timestamp":"2020-10-12","_id":"ZUmsH6wmtCmiY4IB","diff":620,"win":1}
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma","type":"number"},"name":"Dani","guess_value":"8641","timestamp":"2020-10-19","_id":"czaqewudqLxsGls5","diff":1010}
-{"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában","type":"time"},"name":"Balázs","guess_value":"08:15","timestamp":"2020-10-15","_id":"dRq1GqEJ8nGwYMCc","diff":0}
+{"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában","type":"time"},"name":"Balázs","guess_value":"08:15","timestamp":"2020-10-15","_id":"dRq1GqEJ8nGwYMCc","diff":0,"win":1}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma","type":"number"},"name":"Balázs","guess_value":"1016","timestamp":"2020-10-15","_id":"diWTAShr6FqlSE6Q","diff":66}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma","type":"number"},"name":"Dani","guess_value":"951","timestamp":"2020-10-19","_id":"jDuG81sKZliY4oQI","diff":527}
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma","type":"number"},"name":"Balázs","guess_value":"8796","timestamp":"2020-10-16","_id":"jKyLe13c4OXAq0b7","diff":1001}
@@ -54,5 +54,3 @@
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma"},"name":"Balázs","guess_value":"976","timestamp":"2020-10-12","_id":"xr5AMthccoleLTun","diff":197,"win":1}
 {"category":{"id":"xLY0oDBMCYHBQEqF","name":"Új tesztek száma","type":"number"},"name":"Dani","guess_value":"8475","timestamp":"2020-10-26","_id":"xzFJUj2CYbikzQmK","diff":1535,"win":1}
 {"category":{"id":"7F5malxrPH6mKp39","name":"Új fertőzöttek száma","type":"number"},"name":"Balázs","guess_value":"903","timestamp":"2020-10-14","_id":"zwrS8bchwvZvtxv8","diff":17,"win":1}
-{"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában","type":"time"},"name":"Balázs","guess_value":"08:15","timestamp":"2020-10-15","_id":"dRq1GqEJ8nGwYMCc","diff":0,"win":1}
-{"category":{"id":"Xzbgsivz49tu7wyh","name":"Az idő fogságában","type":"time"},"name":"Balázs","guess_value":"08:15","timestamp":"2020-10-15","_id":"dRq1GqEJ8nGwYMCc","diff":0,"win":1}
